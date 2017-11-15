@@ -15,12 +15,10 @@
 #
 # Dockerfile for ISPConfig with MariaDB database
 #
-# https://www.howtoforge.com/tutorial/perfect-server-debian-8-jessie-apache-bind-dovecot-ispconfig-3/
-#
 
-FROM debian:jessie
+FROM debian
 
-MAINTAINER Jeremie Robert <appydo@gmail.com> version: 0.2
+MAINTAINER Fabian Clerbois <fabian@bowlman.org> version: 0.1
 
 # Let the container know that there is no tty
 ENV DEBIAN_FRONTEND noninteractive
@@ -35,7 +33,7 @@ RUN touch /var/log/auth.log
 RUN apt-get -y install ssh openssh-server rsync
 
 # --- 3 Install a shell text editor
-RUN apt-get -y install nano vim-nox
+RUN apt-get -y install nano
 
 # --- 5 Update Your Debian Installation
 ADD ./etc/apt/sources.list /etc/apt/sources.list
@@ -127,8 +125,8 @@ ADD etc/cron.d/awstats /etc/cron.d/
 
 # --- 17 Install Jailkit
 RUN apt-get -y install build-essential autoconf automake libtool flex bison debhelper binutils
-RUN cd /tmp && wget http://olivier.sessink.nl/jailkit/jailkit-2.17.tar.gz && tar xvfz jailkit-2.17.tar.gz && cd jailkit-2.17 && ./debian/rules binary
-RUN cd /tmp && dpkg -i jailkit_2.17-1_*.deb && rm -rf jailkit-2.17*
+RUN cd /tmp && wget http://olivier.sessink.nl/jailkit/jailkit-2.19.tar.gz && tar xvfz jailkit-2.19.tar.gz && cd jailkit-2.19 && ./debian/rules binary
+RUN cd /tmp && dpkg -i jailkit_2.19-1_*.deb && rm -rf jailkit-2.19*
 
 # --- 18 Install fail2ban
 RUN apt-get -y install fail2ban

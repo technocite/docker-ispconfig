@@ -36,7 +36,7 @@ RUN apt-get -y install ssh openssh-server rsync
 RUN apt-get -y install nano
 
 # --- 5 Update Your Debian Installation
-ADD ./etc/apt/sources.list /etc/apt/sources.list
+# ADD ./etc/apt/sources.list /etc/apt/sources.list
 RUN apt-get -y update && apt-get -y upgrade
 
 # --- 6 Change The Default Shell

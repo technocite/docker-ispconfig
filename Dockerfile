@@ -68,16 +68,18 @@ RUN echo 'phpmyadmin phpmyadmin/dbconfig-install boolean true' | debconf-set-sel
 RUN echo 'phpmyadmin phpmyadmin/mysql/admin-pass password pass' | debconf-set-selections
 # RUN echo 'phpmyadmin phpmyadmin/mysql/app-pass password your-app-db-pwd' | debconf-set-selections
 RUN echo 'phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2' | debconf-set-selections
-RUN apt-cache search php-auth
-RUN service mysql restart && apt-get -y install apache2 apache2-doc apache2-utils libexpat1 ssl-cert libapache2-mod-php php php-common php-gd php-mysql php-imap phpmyadmin php-cli php-cgi libapache2-mod-fcgid apache2-suexec-custom php-pear php-auth php-mcrypt mcrypt php-imagick imagemagick libruby libapache2-mod-python php-curl php-intl php-memcache php-memcached php-pspell php-recode php-sqlite3 php-tidy php-xmlrpc php-xsl memcached libapache2-mod-passenger
-RUN a2enmod suexec rewrite ssl actions include dav_fs dav auth_digest cgi
+RUN service mysql restart && apt-get -y install apache2 apache2-doc apache2-utils libapache2-mod-php php7.0 php7.0-common php7.0-gd php7.0-mysql php7.0-imap phpmyadmin php7.0-cli php7.0-cgi libapache2-mod-fcgid apache2-suexec-pristine php-pear php7.0-mcrypt mcrypt  imagemagick libruby libapache2-mod-python php7.0-curl php7.0-intl php7.0-pspell php7.0-recode php7.0-sqlite3 php7.0-tidy php7.0-xmlrpc php7.0-xsl memcached php-memcache php-imagick php-gettext php7.0-zip php7.0-mbstring memcached libapache2-mod-passenger php7.0-soap
+RUN a2enmod suexec rewrite ssl actions include dav_fs dav auth_digest cgi headers
+
+# --- 11 Install lets encrypt
+RUN apt-get install certbot
 
 # --- 12 XCache and PHP-FPM
-RUN apt-get -y install php5-xcache
+RUN apt-get -y install php7.0-fpm php7-xcache
 # php5 fpm (non-free)
 # RUN apt-get -y install libapache2-mod-fastcgi php5-fpm
-# RUN a2enmod actions fastcgi alias
-# RUN service apache2 restart
+RUN a2enmod actions proxy_fcgi alias 
+RUN service apache2 restart
 
 # --- 13 Install Mailman
 RUN echo 'mailman mailman/default_server_language en' | debconf-set-selections

@@ -68,6 +68,7 @@ RUN echo 'phpmyadmin phpmyadmin/dbconfig-install boolean true' | debconf-set-sel
 RUN echo 'phpmyadmin phpmyadmin/mysql/admin-pass password pass' | debconf-set-selections
 # RUN echo 'phpmyadmin phpmyadmin/mysql/app-pass password your-app-db-pwd' | debconf-set-selections
 RUN echo 'phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2' | debconf-set-selections
+RUN apt-cache search php-auth
 RUN service mysql restart && apt-get -y install apache2 apache2-doc apache2-utils libexpat1 ssl-cert libapache2-mod-php php php-common php-gd php-mysql php-imap phpmyadmin php-cli php-cgi libapache2-mod-fcgid apache2-suexec-custom php-pear php-auth php-mcrypt mcrypt php-imagick imagemagick libruby libapache2-mod-python php-curl php-intl php-memcache php-memcached php-pspell php-recode php-sqlite3 php-tidy php-xmlrpc php-xsl memcached libapache2-mod-passenger
 RUN a2enmod suexec rewrite ssl actions include dav_fs dav auth_digest cgi
 
